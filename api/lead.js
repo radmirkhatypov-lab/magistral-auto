@@ -11,7 +11,6 @@ export default async function handler(req, res) {
   }
 
   const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-
   const {
     name = '',
     contact = '',
@@ -33,7 +32,7 @@ export default async function handler(req, res) {
     `Контакт: ${contact}`,
     `Автомобиль: ${car}`,
     `Год: ${year || '—'}`,
-    `Двигатель / мощность: ${engine || '—'}`,
+    `Двигатель / силовая установка / мощность: ${engine || '—'}`,
     `Стоимость: ${price || '—'}`,
     `Откуда покупка: ${source || '—'}`
   ].join('\n');
@@ -50,7 +49,6 @@ export default async function handler(req, res) {
     });
 
     const data = await tg.json();
-
     if (!tg.ok || !data.ok) {
       return res.status(502).json({
         ok: false,
@@ -61,7 +59,7 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({ ok: true });
-  } catch (err) {
+  } catch {
     return res.status(500).json({ ok: false, error: 'Server error' });
   }
 }
